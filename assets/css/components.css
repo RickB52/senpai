@@ -1,0 +1,351 @@
+/* ===========================================
+   Senpai — components.css  |  Apple-inspired
+   =========================================== */
+
+/* ===========================================
+   BUTTONS
+   =========================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  line-height: 1;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: none;
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: -0.1px;
+}
+
+.btn:disabled, .btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn--primary:not(:disabled):hover {
+  background: var(--color-primary-dark);
+  transform: scale(1.01);
+}
+
+.btn--accent {
+  background: var(--color-accent);
+  color: #fff;
+}
+.btn--accent:not(:disabled):hover {
+  background: var(--color-accent-dark);
+  transform: scale(1.01);
+}
+
+.btn--ghost {
+  background: var(--color-border-light);
+  color: var(--color-text);
+}
+.btn--ghost:not(:disabled):hover {
+  background: var(--color-border);
+}
+
+.btn--white {
+  background: #fff;
+  color: var(--color-primary);
+}
+.btn--white:hover {
+  background: rgba(255,255,255,0.9);
+  transform: scale(1.01);
+}
+
+.btn--outline-white {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.35);
+}
+.btn--outline-white:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.6);
+}
+
+/* Sizes */
+.btn--lg  { padding: 14px 28px; font-size: 1rem; }
+.btn--sm  { padding: 7px 16px;  font-size: 0.8125rem; }
+.btn--xs  { padding: 5px 12px;  font-size: 0.75rem; }
+.btn--pill { border-radius: var(--radius-pill) !important; }
+
+/* ===========================================
+   BADGES
+   =========================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+  letter-spacing: 0.2px;
+}
+
+.badge--free    { background: var(--color-success-light);  color: #059669; }
+.badge--soon    { background: var(--color-warning-light);  color: #D97706; }
+.badge--premium { background: var(--color-accent-light);   color: var(--color-accent); }
+.badge--new     { background: var(--color-primary-light);  color: var(--color-primary); }
+.badge--done    { background: var(--color-success-light);  color: var(--color-success); }
+
+/* ===========================================
+   ROLE CARDS
+   =========================================== */
+.role-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-2xl);
+  padding: 32px 22px;
+  text-align: center;
+  transition: all var(--transition-slow);
+  box-shadow: var(--shadow-sm);
+}
+
+.role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.role-card__icon {
+  font-size: 2.25rem;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.role-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 6px;
+  letter-spacing: -0.2px;
+}
+
+.role-card__desc {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+/* ===========================================
+   MODULE CARDS
+   =========================================== */
+.module-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-2xl);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all var(--transition-slow);
+  box-shadow: var(--shadow-sm);
+}
+
+.module-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.module-card--active {
+  box-shadow: 0 0 0 1.5px var(--color-primary), var(--shadow-sm);
+}
+
+.module-card--vocab {
+  background: linear-gradient(140deg, #EEF2FF 0%, var(--color-surface) 80%);
+}
+
+.module-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.module-card__icon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.module-card__info { flex: 1; min-width: 0; }
+
+.module-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+  margin-bottom: 3px;
+  letter-spacing: -0.2px;
+}
+
+.module-card__count {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.module-card__lessons {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+/* ===========================================
+   LESSON ITEMS
+   =========================================== */
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  padding: 7px 10px;
+  border-radius: var(--radius-md);
+  transition: background var(--transition);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.lesson-item:hover { background: var(--color-background); }
+
+.lesson-item__icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+}
+
+.lesson-item--done { color: var(--color-success); font-weight: 500; }
+.lesson-item--done .lesson-item__icon {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.lesson-item--active .lesson-item__icon {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.lesson-item--locked {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  cursor: default;
+}
+
+/* ===========================================
+   VOCAB CHIPS
+   =========================================== */
+.vocab-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vocab-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  background: var(--color-background);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-jp);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.vocab-chip:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ===========================================
+   PROGRESS BAR
+   =========================================== */
+.progress-bar {
+  height: 4px;
+  background: var(--color-border-light);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  flex: 1;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius-pill);
+  transition: width 0.7s ease;
+}
+
+/* ===========================================
+   THEME TOGGLE
+   =========================================== */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition);
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover { color: var(--color-text); }
+
+/* ===========================================
+   FEATURES STRIP
+   =========================================== */
+.features-strip {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border-light);
+  border-bottom: 1px solid var(--color-border-light);
+  padding: 28px 0;
+}
+
+.features-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: var(--color-background);
+  transition: all var(--transition);
+}
+
+.feature-pill:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}

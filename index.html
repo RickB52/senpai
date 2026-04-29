@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senpai — Tiếng Nhật Thực Chiến cho Dân IT</title>
+  <meta name="description" content="Học tiếng Nhật theo tình huống thực tế trong dự án offshore. Lộ trình N3→N2→N1→Business Pro dành cho Comtor, BA, Dev, BRSE.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    /* ── ROADMAP SECTION ── */
+    .roadmap { padding: 80px 0; background: var(--color-background); }
+
+    .roadmap-path {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-top: 48px;
+      position: relative;
+    }
+
+    .roadmap-stage {
+      flex: 1;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .roadmap-stage__inner {
+      background: var(--color-surface);
+      border: 2px solid var(--color-border, #E2E8F0);
+      border-radius: 16px;
+      padding: 24px 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      margin: 0 8px;
+    }
+
+    .roadmap-stage--active .roadmap-stage__inner {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.12), 0 8px 24px rgba(239,68,68,0.1);
+    }
+
+    .roadmap-stage--locked .roadmap-stage__inner {
+      background: #FAFAFA;
+      opacity: 0.75;
+    }
+
+    .roadmap-stage__inner:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    }
+
+    .roadmap-stage__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      width: fit-content;
+    }
+
+    .roadmap-stage--active .roadmap-stage__badge { background: #FEF2F2; color: var(--color-primary); }
+    .roadmap-stage--n2 .roadmap-stage__badge    { background: #EFF6FF; color: #3B82F6; }
+    .roadmap-stage--n1 .roadmap-stage__badge    { background: #F5F3FF; color: #7C3AED; }
+    .roadmap-stage--pro .roadmap-stage__badge   { background: #F0FDF4; color: #059669; }
+
+    .roadmap-stage__level {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .roadmap-stage__title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    .roadmap-stage__duration {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      background: var(--color-background);
+      border-radius: 6px;
+      padding: 4px 8px;
+      width: fit-content;
+    }
+
+    .roadmap-stage__skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .skill-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--color-background);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border, #E2E8F0);
+    }
+
+    .roadmap-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+      padding: 0 4px;
+      align-self: center;
+    }
+
+    @media (max-width: 768px) {
+      .roadmap-path { flex-direction: column; }
+      .roadmap-stage__inner { margin: 0; }
+      .roadmap-arrow { transform: rotate(90deg); padding: 4px 0; }
+    }
+
+    /* ── STAGES DETAIL SECTION ── */
+    .stages { padding: 80px 0; background: var(--color-surface); }
+
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 900px) { .stages-grid { grid-template-columns: 1fr; } }
+
+    .stage-card {
+      border: 2px solid var(--color-border, #E2E8F0);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stage-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .stage-card--1 { border-top: 4px solid var(--color-primary); }
+    .stage-card--2 { border-top: 4px solid #3B82F6; }
+    .stage-card--3 { border-top: 4px solid #7C3AED; }
+    .stage-card--4 { border-top: 4px solid #059669; }
+
+    .stage-card__head {
+      padding: 24px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border, #F1F5F9);
+    }
+
+    .stage-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .stage-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stage-card--1 .stage-label { color: var(--color-primary); }
+    .stage-card--2 .stage-label { color: #3B82F6; }
+    .stage-card--3 .stage-label { color: #7C3AED; }
+    .stage-card--4 .stage-label { color: #059669; }
+
+    .stage-card__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 6px;
+    }
+
+    .stage-card__subtitle {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    .stage-card__body { padding: 20px 24px 24px; }
+
+    .stage-goals {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .stage-goal {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--color-text);
+      line-height: 1.5;
+    }
+
+    .stage-goal__check {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .stage-card--1 .stage-goal__check { background: var(--color-primary); }
+    .stage-card--2 .stage-goal__check { background: #3B82F6; }
+    .stage-card--3 .stage-goal__check { background: #7C3AED; }
+    .stage-card--4 .stage-goal__check { background: #059669; }
+
+    .stage-modules-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin-bottom: 10px;
+    }
+
+    .stage-modules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stage-module-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      padding: 6px 10px;
+      background: var(--color-background);
+      border-radius: 8px;
+    }
+
+    .stage-module-item__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .stage-card--1 .stage-module-item__dot { background: var(--color-primary); }
+    .stage-card--2 .stage-module-item__dot { background: #3B82F6; }
+    .stage-card--3 .stage-module-item__dot { background: #7C3AED; }
+    .stage-card--4 .stage-module-item__dot { background: #059669; }
+
+    .stage-card__footer {
+      padding: 0 24px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stage-status-pill {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .stage-status-pill--active { background: #FEF2F2; color: var(--color-primary); }
+    .stage-status-pill--soon   { background: #F8FAFC; color: var(--color-text-muted); border: 1px solid var(--color-border, #E2E8F0); }
+
+    /* ── AI FEATURES SECTION ── */
+    .ai-features { padding: 80px 0; background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: #fff; }
+
+    .ai-features .section__eyebrow { color: rgba(255,255,255,0.5); }
+    .ai-features .section__title   { color: #fff; }
+    .ai-features .section__subtitle { color: rgba(255,255,255,0.6); }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 600px) { .ai-grid { grid-template-columns: 1fr; } }
+
+    .ai-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .ai-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-4px);
+    }
+
+    .ai-card__icon {
+      font-size: 32px;
+      width: 52px;
+      height: 52px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ai-card__title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .ai-card__desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+    }
+
+    .ai-card__tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── GAMIFICATION SECTION ── */
+    .gamification { padding: 80px 0; background: var(--color-background); }
+
+    .gamification-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 900px) { .gamification-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .gamification-grid { grid-template-columns: 1fr; } }
+
+    .gamif-card {
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border, #E2E8F0);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .gamif-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .gamif-card__icon {
+      font-size: 36px;
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-background);
+    }
+
+    .gamif-card__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .gamif-card__desc {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar__brand">
+      <span class="brand-icon">先</span>
+      <span class="brand-name">Senpai <span style="font-weight:400; color:var(--color-text-muted); font-size:0.8em">DynhNC5</span></span>
+    </a>
+    <ul class="navbar__links">
+      <li><a href="japanese/index.html" class="link--cta">🇯🇵 Học ngay</a></li>
+      <li><a href="japanese/vocabulary/index.html">🔤 Từ vựng</a></li>
+      <li><a href="#">📚 Resources</a></li>
+      <li><a href="#" class="link--premium">🔒 Premium</a></li>
+    </ul>
+    <div class="navbar__right">
+      <button class="theme-toggle" aria-label="Đổi giao diện">🌙</button>
+    </div>
+    <button class="navbar__toggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__content">
+      <div class="hero__badge">🇯🇵 Lộ trình N3 → N2 → N1 → Business Pro</div>
+      <h1 class="hero__title">
+        Business Japanese<br>
+        <span class="highlight">Thực Chiến</span><br>
+        Cho Dân IT
+      </h1>
+      <p class="hero__subtitle">
+        Từ N4–N3 đến thuyết trình, đàm phán, và viết email chuyên nghiệp.
+        Lộ trình <strong>24–32 tuần</strong> được thiết kế riêng cho
+        Comtor, BA, Dev, BRSE làm dự án Nhật.
+      </p>
+      <div class="hero__actions">
+        <a href="#roadmap" class="btn btn--primary btn--lg">
+          Xem lộ trình →
+        </a>
+        <a href="japanese/stage2/email/lesson-01.html" class="btn btn--ghost btn--lg">
+          Học bài đầu tiên
+        </a>
+      </div>
+      <div class="hero__stats">
+        <div class="stat">
+          <span class="stat__number">4</span>
+          <span class="stat__label">Giai đoạn học</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number">24+</span>
+          <span class="stat__label">Modules thực chiến</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number">N1</span>
+          <span class="stat__label">Mục tiêu đầu ra</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__kanji">先輩</div>
+
+      <div class="hero__card hero__card--a">
+        <div class="card-preview__tag">📧 Email · Keigo</div>
+        <div class="card-preview__title">お世話になっております</div>
+        <div class="card-preview__sub">Email chuẩn doanh nghiệp Nhật</div>
+      </div>
+
+      <div class="hero__card hero__card--b">
+        <div class="card-preview__tag">✅ Giai đoạn 2 — N2</div>
+        <div class="card-preview__title">Business Email</div>
+        <div class="card-preview__sub">Đã hoàn thành 6/6 modules</div>
+        <div class="card-preview__score">
+          <span class="score-star">★★★★★</span>
+          <span class="score-label">N2 Foundation</span>
+        </div>
+      </div>
+
+      <div class="hero__card hero__card--c">
+        <div class="card-preview__tag">🤝 Đàm phán · G3</div>
+        <div class="card-preview__title">ご検討いただけ<br>ますでしょうか</div>
+        <div class="card-preview__sub">Counter-offer lịch sự</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LỜI NGỎ ── -->
+<section class="intro">
+  <div class="container">
+    <div class="intro__content reveal">
+      <div class="intro__label">Lời ngỏ</div>
+      <h2 class="intro__title">
+        Tiếng Nhật có 3 phong cách hội thoại —<br>
+        bạn đang học <em>phong cách nào?</em>
+      </h2>
+
+      <div class="intro__body">
+        <p>
+          Nếu bạn quan tâm đến văn hóa và ngôn ngữ Nhật Bản, bạn sẽ biết:
+          ngoài 3 bảng chữ cái, tiếng Nhật còn có <strong>3 phong cách hội thoại
+          hoàn toàn khác nhau</strong>.
+        </p>
+        <p>Phong cách thứ nhất là nói chuyện thân mật với bạn bè, gia đình, người thân.</p>
+        <p>Phong cách thứ hai là nói chuyện lịch sự với đồng nghiệp và người lạ.</p>
+        <p>Và phong cách thứ ba — <strong>Business Japanese</strong> — là cách giao tiếp
+          chuyên nghiệp với khách hàng và đối tác, trong các môi trường luôn giao tiếp
+          với khách hàng và đối tác, đặc biệt là khách hàng phát triển phần mềm.</p>
+      </div>
+
+      <blockquote class="intro__quote">
+        "Hai phong cách đầu, bạn có thể học ở bất cứ đâu. Nhưng để thăng tiến
+        trong công việc và đạt được sự tin tưởng của đối tác Nhật —
+        bạn cần phong cách thứ ba."
+      </blockquote>
+
+      <p class="intro__cta-text">
+        Với hơn 10 năm kinh nghiệm làm việc cùng đối tác và khách hàng Nhật Bản,
+        Senpai sẽ giúp các bạn làm chủ
+        <strong>Business Japanese</strong> — mở ra con đường thăng tiến trong tương lai.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURE STRIP ── -->
+<div class="features-strip">
+  <div class="container">
+    <div class="features-list">
+      <span class="feature-pill"><span class="feature-pill__icon">🤖</span> AI Conversation Partner</span>
+      <span class="feature-pill"><span class="feature-pill__icon">✍️</span> Keigo Advisor AI</span>
+      <span class="feature-pill"><span class="feature-pill__icon">🎬</span> Video tình huống thực</span>
+      <span class="feature-pill"><span class="feature-pill__icon">🔊</span> Audio phát âm chuẩn</span>
+      <span class="feature-pill"><span class="feature-pill__icon">📱</span> Mobile-first</span>
+      <span class="feature-pill"><span class="feature-pill__icon">🏆</span> Gamification XP</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOR WHOM ── -->
+<section class="for-whom">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__eyebrow">Đối tượng</div>
+      <h2 class="section__title">Dành cho bạn nếu bạn là...</h2>
+      <p class="section__subtitle">Bất kỳ ai đang làm việc trực tiếp với khách hàng hoặc đồng nghiệp Nhật Bản</p>
+    </div>
+    <div class="roles-grid">
+      <div class="role-card reveal">
+        <span class="role-card__icon">🗣️</span>
+        <div class="role-card__title">Comtor / Bridge SE</div>
+        <div class="role-card__desc">Bridge ngôn ngữ và văn hóa giữa team VN và khách Nhật mỗi ngày</div>
+      </div>
+      <div class="role-card reveal d1">
+        <span class="role-card__icon">📋</span>
+        <div class="role-card__title">BA / BRSE</div>
+        <div class="role-card__desc">Làm việc trực tiếp với stakeholder Nhật — requirement, spec, meeting</div>
+      </div>
+      <div class="role-card reveal d2">
+        <span class="role-card__icon">💻</span>
+        <div class="role-card__title">Developer</div>
+        <div class="role-card__desc">Đọc tài liệu kỹ thuật, email, comment code và chat tiếng Nhật</div>
+      </div>
+      <div class="role-card reveal d3">
+        <span class="role-card__icon">🤝</span>
+        <div class="role-card__title">Dân Offshore</div>
+        <div class="role-card__desc">Làm dự án offshore — cần giao tiếp chuyên nghiệp với client Nhật</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROADMAP OVERVIEW ── -->
+<section class="roadmap" id="roadmap">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__eyebrow">Lộ trình học</div>
+      <h2 class="section__title">4 giai đoạn từ N3 đến Business Pro</h2>
+      <p class="section__subtitle">Tổng 24–32 tuần · Học 3–5 giờ/tuần · Có thể bắt đầu từ bất kỳ giai đoạn nào phù hợp với bạn</p>
+    </div>
+
+    <div class="roadmap-path">
+      <!-- Stage 1 -->
+      <div class="roadmap-stage roadmap-stage--active reveal">
+        <div class="roadmap-stage__inner">
+          <span class="roadmap-stage__badge">🟥 Giai đoạn 1</span>
+          <div class="roadmap-stage__level">N3 Nâng cao</div>
+          <div class="roadmap-stage__title">Nền tảng<br>Công Sở</div>
+          <div class="roadmap-stage__duration">⏱ 4–6 tuần</div>
+          <div class="roadmap-stage__skills">
+            <span class="skill-tag">Nghe 30%</span>
+            <span class="skill-tag">Đọc 30%</span>
+            <span class="skill-tag">Nói 20%</span>
+            <span class="skill-tag">Từ vựng 20%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roadmap-arrow">→</div>
+
+      <!-- Stage 2 -->
+      <div class="roadmap-stage roadmap-stage--n2 reveal d1">
+        <div class="roadmap-stage__inner">
+          <span class="roadmap-stage__badge">🔵 Giai đoạn 2</span>
+          <div class="roadmap-stage__level">N2 Business</div>
+          <div class="roadmap-stage__title">Business<br>Foundation</div>
+          <div class="roadmap-stage__duration">⏱ 6–8 tuần</div>
+          <div class="roadmap-stage__skills">
+            <span class="skill-tag">Keigo 25%</span>
+            <span class="skill-tag">Email 25%</span>
+            <span class="skill-tag">Họp 25%</span>
+            <span class="skill-tag">Báo cáo 25%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roadmap-arrow">→</div>
+
+      <!-- Stage 3 -->
+      <div class="roadmap-stage roadmap-stage--n1 reveal d2">
+        <div class="roadmap-stage__inner">
+          <span class="roadmap-stage__badge">🟣 Giai đoạn 3</span>
+          <div class="roadmap-stage__level">N1 Business</div>
+          <div class="roadmap-stage__title">Business<br>Advanced</div>
+          <div class="roadmap-stage__duration">⏱ 8–10 tuần</div>
+          <div class="roadmap-stage__skills">
+            <span class="skill-tag">Keigo nâng cao 30%</span>
+            <span class="skill-tag">Presentation 20%</span>
+            <span class="skill-tag">Đàm phán 25%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roadmap-arrow">→</div>
+
+      <!-- Stage 4 -->
+      <div class="roadmap-stage roadmap-stage--pro reveal d3">
+        <div class="roadmap-stage__inner">
+          <span class="roadmap-stage__badge">🟢 Giai đoạn 4</span>
+          <div class="roadmap-stage__level">Business Pro</div>
+          <div class="roadmap-stage__title">Chuyên Biệt<br>& BJT / N1</div>
+          <div class="roadmap-stage__duration">⏱ 6–8 tuần +</div>
+          <div class="roadmap-stage__skills">
+            <span class="skill-tag">IT Japanese</span>
+            <span class="skill-tag">Văn bản chính thức</span>
+            <span class="skill-tag">BJT / JLPT N1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS STRIP ── -->
+<div class="callout-strip">
+  <div class="container">
+    <div class="callout-stat">
+      <span class="callout-stat__num">4</span>
+      <span class="callout-stat__label">Giai đoạn học tập</span>
+    </div>
+    <div class="callout-divider"></div>
+    <div class="callout-stat">
+      <span class="callout-stat__num">24+</span>
+      <span class="callout-stat__label">Modules thực chiến</span>
+    </div>
+    <div class="callout-divider"></div>
+    <div class="callout-stat">
+      <span class="callout-stat__num">N1</span>
+      <span class="callout-stat__label">Mục tiêu đầu ra</span>
+    </div>
+    <div class="callout-divider"></div>
+    <div class="callout-stat">
+      <span class="callout-stat__num">IT</span>
+      <span class="callout-stat__label">Ngành chuyên biệt</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── STAGES DETAIL ── -->
+<section class="stages" id="modules">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__eyebrow">Chi tiết từng giai đoạn</div>
+      <h2 class="section__title">Bạn sẽ học được gì?</h2>
+      <p class="section__subtitle">Mỗi giai đoạn có mục tiêu rõ ràng và modules học theo tình huống thực tế dự án IT</p>
+    </div>
+
+    <div class="stages-grid">
+
+      <!-- Stage 1 -->
+      <div class="stage-card stage-card--1 reveal">
+        <div class="stage-card__head">
+          <div class="stage-card__meta">
+            <span class="stage-label">Giai đoạn 1 · N3 Nâng cao</span>
+            <span class="stage-status-pill stage-status-pill--active">Đang mở</span>
+          </div>
+          <div class="stage-card__title">Nền tảng Công Sở</div>
+          <div class="stage-card__subtitle">⏱ 4–6 tuần · Học 3–5 giờ/tuần</div>
+        </div>
+        <div class="stage-card__body">
+          <div class="stage-goals">
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Hiểu hội thoại công sở thông thường
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Đọc email và thông báo nội bộ cơ bản
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Bắt đầu dùng 丁寧語 ở mức cơ bản
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Nghe và phản hồi điện thoại văn phòng đơn giản
+            </div>
+          </div>
+          <div class="stage-modules-title">Modules trong giai đoạn</div>
+          <div class="stage-modules-list">
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Ngữ pháp N3 công sở — ていただく, ということ
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              250 từ vựng cốt lõi môi trường công sở
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Điện thoại & hội thoại cơ bản
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Đọc hiểu email, thông báo, lịch họp
+            </div>
+          </div>
+        </div>
+        <div class="stage-card__footer">
+          <a href="japanese/stage2/email/lesson-01.html" class="btn btn--primary btn--sm">Bắt đầu G1 →</a>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="stage-card stage-card--2 reveal d1">
+        <div class="stage-card__head">
+          <div class="stage-card__meta">
+            <span class="stage-label">Giai đoạn 2 · N2 Business</span>
+            <span class="stage-status-pill stage-status-pill--soon">Sắp có</span>
+          </div>
+          <div class="stage-card__title">Business Foundation</div>
+          <div class="stage-card__subtitle">⏱ 6–8 tuần · Keigo · Email · Họp · Báo cáo</div>
+        </div>
+        <div class="stage-card__body">
+          <div class="stage-goals">
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Viết email công sở chuẩn mực tiếng Nhật
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Tham gia cuộc họp cơ bản và hiểu nội dung
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Sử dụng 尊敬語 đúng ngữ cảnh
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Đọc hiểu tài liệu kinh doanh N2
+            </div>
+          </div>
+          <div class="stage-modules-title">6 Modules trong giai đoạn</div>
+          <div class="stage-modules-list">
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Keigo cơ bản: 丁寧語 & 尊敬語
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Email công sở N2 — cấu trúc & mẫu câu
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Họp hành & thảo luận (会議)
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Đọc & viết báo cáo · Ngữ pháp N2 · Tiếp khách
+            </div>
+          </div>
+        </div>
+        <div class="stage-card__footer">
+          <button class="btn btn--ghost btn--sm" disabled>Chưa mở</button>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="stage-card stage-card--3 reveal">
+        <div class="stage-card__head">
+          <div class="stage-card__meta">
+            <span class="stage-label">Giai đoạn 3 · N1 Business</span>
+            <span class="stage-status-pill stage-status-pill--soon">Sắp có</span>
+          </div>
+          <div class="stage-card__title">Business Advanced</div>
+          <div class="stage-card__subtitle">⏱ 8–10 tuần · Keigo · Presentation · Đàm phán</div>
+        </div>
+        <div class="stage-card__body">
+          <div class="stage-goals">
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Dùng toàn bộ keigo: 尊敬語 + 謙譲語 thành thạo
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Thuyết trình trước khách hàng Nhật
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Xử lý delay, bug, scope change chuyên nghiệp
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Đàm phán và thương lượng tự tin
+            </div>
+          </div>
+          <div class="stage-modules-title">6 Modules trong giai đoạn</div>
+          <div class="stage-modules-list">
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Keigo nâng cao: 謙譲語 & 丁重語
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Trình bày & Presentation (プレゼン)
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Xử lý vấn đề & xin lỗi chuyên nghiệp
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Đàm phán · Đọc N1 · Email keigo hoàn chỉnh
+            </div>
+          </div>
+        </div>
+        <div class="stage-card__footer">
+          <button class="btn btn--ghost btn--sm" disabled>Chưa mở</button>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="stage-card stage-card--4 reveal d1">
+        <div class="stage-card__head">
+          <div class="stage-card__meta">
+            <span class="stage-label">Giai đoạn 4 · Business Pro</span>
+            <span class="stage-status-pill stage-status-pill--soon">Premium</span>
+          </div>
+          <div class="stage-card__title">Chuyên Biệt & Thi Cử</div>
+          <div class="stage-card__subtitle">⏱ 6–8 tuần + học liên tục</div>
+        </div>
+        <div class="stage-card__body">
+          <div class="stage-goals">
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Tự tin giao tiếp kinh doanh mọi tình huống
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Viết văn bản chính thức doanh nghiệp Nhật
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Sẵn sàng thi BJT Business Japanese Test
+            </div>
+            <div class="stage-goal">
+              <span class="stage-goal__check">✓</span>
+              Hiểu sâu văn hóa công sở Nhật để thăng tiến
+            </div>
+          </div>
+          <div class="stage-modules-title">4 Modules chuyên sâu</div>
+          <div class="stage-modules-list">
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              IT Business Japanese — 進捗、仕様、報連相
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Văn bản chính thức: 稟議書, 報告書, 議事録
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Luyện BJT & JLPT N1 — Mock test + phân tích
+            </div>
+            <div class="stage-module-item">
+              <span class="stage-module-item__dot"></span>
+              Văn hóa Nhật: Horenso, Nemawashi, Ringi, Ma
+            </div>
+          </div>
+        </div>
+        <div class="stage-card__footer">
+          <a href="#" class="btn btn--ghost btn--sm">Xem Premium →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── AI FEATURES ── -->
+<section class="ai-features">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__eyebrow">AI-Powered</div>
+      <h2 class="section__title">Học cùng trợ lý AI thông minh</h2>
+      <p class="section__subtitle">Không chỉ học lý thuyết — thực hành với AI hiểu ngữ cảnh dự án IT</p>
+    </div>
+
+    <div class="ai-grid">
+      <div class="ai-card reveal">
+        <div class="ai-card__icon">🤖</div>
+        <div class="ai-card__title">AI Conversation Partner</div>
+        <div class="ai-card__desc">
+          Chat tiếng Nhật trong tình huống dự án thực tế. AI sửa lỗi real-time và điều chỉnh theo level của bạn — từ N3 đến Business Pro.
+        </div>
+        <div class="ai-card__tag">Chat · Correction · Level-aware</div>
+      </div>
+
+      <div class="ai-card reveal d1">
+        <div class="ai-card__icon">✍️</div>
+        <div class="ai-card__title">Keigo Advisor</div>
+        <div class="ai-card__desc">
+          Nhập câu thông thường, AI tự động chuyển sang keigo phù hợp với ngữ cảnh. Giải thích tại sao dùng 尊敬語 hay 謙譲語.
+        </div>
+        <div class="ai-card__tag">Keigo · 敬語 · Context-aware</div>
+      </div>
+
+      <div class="ai-card reveal d2">
+        <div class="ai-card__icon">📧</div>
+        <div class="ai-card__title">Email Checker</div>
+        <div class="ai-card__desc">
+          Paste bản draft email tiếng Nhật, AI phân tích keigo, cấu trúc, và đề xuất cải thiện theo chuẩn doanh nghiệp Nhật.
+        </div>
+        <div class="ai-card__tag">Email · Draft review · Business standard</div>
+      </div>
+
+      <div class="ai-card reveal d3">
+        <div class="ai-card__icon">🎙️</div>
+        <div class="ai-card__title">Pronunciation Scorer</div>
+        <div class="ai-card__desc">
+          Ghi âm câu tiếng Nhật, AI chấm điểm phát âm và chỉ ra điểm cần cải thiện. Quan trọng cho kỹ năng nói trong meeting.
+        </div>
+        <div class="ai-card__tag">Speaking · Shadowing · Score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GAMIFICATION ── -->
+<section class="gamification">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__eyebrow">Hệ thống học thông minh</div>
+      <h2 class="section__title">Duy trì động lực học mỗi ngày</h2>
+      <p class="section__subtitle">Gamification + Spaced Repetition + Phân tích điểm yếu — học đúng cách, nhớ lâu hơn</p>
+    </div>
+
+    <div class="gamification-grid">
+      <div class="gamif-card reveal">
+        <div class="gamif-card__icon">⭐</div>
+        <div class="gamif-card__title">XP & Level</div>
+        <div class="gamif-card__desc">Tích điểm qua bài học, quiz, streak hàng ngày. Lên level từ N3 đến Business Pro.</div>
+      </div>
+
+      <div class="gamif-card reveal d1">
+        <div class="gamif-card__icon">🏅</div>
+        <div class="gamif-card__title">Achievement Badges</div>
+        <div class="gamif-card__desc">"First Keigo Email", "Presentation Master", "Meeting Pro" — mỗi milestone là 1 huy hiệu.</div>
+      </div>
+
+      <div class="gamif-card reveal d2">
+        <div class="gamif-card__icon">🧠</div>
+        <div class="gamif-card__title">Spaced Repetition</div>
+        <div class="gamif-card__desc">Ôn tập đúng thời điểm khi bạn sắp quên. Nhớ từ vựng và keigo lâu gấp 5 lần.</div>
+      </div>
+
+      <div class="gamif-card reveal d3">
+        <div class="gamif-card__icon">📊</div>
+        <div class="gamif-card__title">JLPT Readiness</div>
+        <div class="gamif-card__desc">Ước tính % sẵn sàng thi N2/N1 và BJT theo thời gian thực. Biết rõ cần học thêm gì.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__eyebrow">Cách học</div>
+      <h2 class="section__title">Mỗi bài học hoạt động thế nào?</h2>
+      <p class="section__subtitle">9 phần được thiết kế theo quy trình học ngôn ngữ khoa học — từ context đến practice</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <span class="step__icon">🎬</span>
+        <div class="step__num">01</div>
+        <div class="step__title">Video tình huống</div>
+        <div class="step__desc">Xem cách người thật xử lý tình huống dự án Nhật thực tế</div>
+      </div>
+      <div class="step__arrow">→</div>
+      <div class="step reveal d1">
+        <span class="step__icon">📝</span>
+        <div class="step__num">02</div>
+        <div class="step__title">Vocab + Pattern</div>
+        <div class="step__desc">Từ vựng cốt lõi với furigana, audio phát âm chuẩn tiếng Nhật</div>
+      </div>
+      <div class="step__arrow">→</div>
+      <div class="step reveal d2">
+        <span class="step__icon">✍️</span>
+        <div class="step__num">03</div>
+        <div class="step__title">Luyện tập + Quiz</div>
+        <div class="step__desc">Fill-in-blank và quiz kiểm tra, điểm được lưu tự động</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BANNER ── -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-banner__text">
+      <h2>Bắt đầu từ Giai đoạn 1</h2>
+      <p>Xin chào khi vào dự án mới — kỹ năng đầu tiên của dân offshore Nhật</p>
+    </div>
+    <a href="japanese/stage2/email/lesson-01.html" class="btn btn--white btn--lg">
+      Học bài đầu tiên →
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="footer__logo">
+          <span class="brand-icon">先</span>
+          <span class="brand-name">Senpai <span style="font-weight:400; color:#64748B; font-size:0.8em">DynhNC5</span></span>
+        </div>
+        <p class="footer__tagline">Business Japanese thực chiến cho dân IT offshore — lộ trình N3→N2→N1→Pro, học theo tình huống thực tế.</p>
+      </div>
+      <div class="footer__links">
+        <h4>Lộ trình</h4>
+        <ul>
+          <li><a href="#roadmap">Giai đoạn 1 — N3</a></li>
+          <li><a href="#roadmap">Giai đoạn 2 — N2</a></li>
+          <li><a href="#roadmap">Giai đoạn 3 — N1</a></li>
+          <li><a href="#roadmap">Giai đoạn 4 — Pro</a></li>
+        </ul>
+      </div>
+      <div class="footer__links">
+        <h4>Học ngay</h4>
+        <ul>
+          <li><a href="japanese/stage2/email/lesson-01.html">Business Email</a></li>
+          <li><a href="japanese/vocabulary/index.html">Từ vựng IT</a></li>
+          <li><a href="#">Resources</a></li>
+        </ul>
+      </div>
+      <div class="footer__links">
+        <h4>Về Senpai</h4>
+        <ul>
+          <li><a href="#">Về dự án</a></li>
+          <li><a href="#">Premium</a></li>
+          <li><a href="#">Liên hệ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>Copyright © 2026 <strong style="color:#fff">Senpai DynhNC5</strong> | senpai.vn</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/theme.js"></script>
+</body>
+</html>
