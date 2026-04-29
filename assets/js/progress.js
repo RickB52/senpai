@@ -1,4 +1,4 @@
-/* progress.js — LocalStorage progress tracking (skeleton) */
+/* progress.js — LocalStorage progress tracking */
 /* senpai_progress: { lessonId: true }  */
 
 const SenpaiProgress = {
@@ -13,5 +13,21 @@ const SenpaiProgress = {
   },
   isDone: function (lessonId) {
     return !!this.get()[lessonId];
+  },
+  reset: function () {
+    localStorage.removeItem(this.KEY);
   }
 };
+
+/* Global helpers dùng trong lesson pages và module index pages */
+function isLessonComplete(lessonId) {
+  return SenpaiProgress.isDone(lessonId);
+}
+function markLessonComplete(lessonId) {
+  SenpaiProgress.mark(lessonId);
+}
+function calculateProgress(lessonIds) {
+  if (!lessonIds || !lessonIds.length) return 0;
+  const done = lessonIds.filter(function (id) { return SenpaiProgress.isDone(id); }).length;
+  return Math.round((done / lessonIds.length) * 100);
+}

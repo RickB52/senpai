@@ -48,16 +48,22 @@ senpai/
 │   │   ├── phone/                  # M1.3: Điện thoại & hội thoại
 │   │   └── reading/                # M1.4: Đọc email, thông báo, memo
 │   ├── stage2/                     # N2 Business Foundation (6–8 tuần)
-│   │   ├── index.html
-│   │   ├── keigo/                  # M2.1: 丁寧語 → 尊敬語
+│   │   ├── index.html              # ✅ Tổng quan 6 modules + progress
+│   │   ├── keigo/                  # M2.1: 丁寧語 → 尊敬語 (chưa có)
 │   │   ├── email/                  # M2.2: Email công sở
-│   │   │   ├── index.html
-│   │   │   ├── lesson-01.html      # Xin chào khi join dự án mới ✅
-│   │   │   └── lesson-02.html      # Báo cáo tiến độ 週次報告
+│   │   │   ├── index.html          # ✅ Danh sách 4 bài
+│   │   │   ├── lesson-01.html      # ✅ Xin chào khi join dự án mới
+│   │   │   ├── lesson-02.html      # ✅ Báo cáo tiến độ 週次報告
+│   │   │   └── lesson-03.html      # ✅ Báo delay — xin lỗi + giải pháp
 │   │   ├── meeting/                # M2.3: Họp hành 会議
+│   │   │   ├── index.html          # ✅ Danh sách 3 bài
+│   │   │   ├── lesson-01.html      # ✅ Mở đầu & kết thúc cuộc họp
+│   │   │   └── lesson-02.html      # ✅ Đặt câu hỏi, xin xác nhận
 │   │   ├── reporting/              # M2.4: Báo cáo 進捗報告
-│   │   ├── grammar/                # M2.5: Ngữ pháp N2 chức năng
-│   │   └── reception/              # M2.6: Tiếp khách 接待・名刺交換
+│   │   │   ├── index.html          # ✅ Danh sách 3 bài
+│   │   │   └── lesson-01.html      # ✅ Báo cáo bug / issue
+│   │   ├── grammar/                # M2.5: Ngữ pháp N2 (chưa có)
+│   │   └── reception/              # M2.6: Tiếp khách 接待 (chưa có)
 │   ├── stage3/                     # N1 Business Advanced (8–10 tuần)
 │   │   ├── index.html
 │   │   ├── keigo-advanced/         # M3.1: 謙譲語 & 丁重語
@@ -73,18 +79,18 @@ senpai/
 │   │   ├── test-prep/              # M4.3: BJT & JLPT N1
 │   │   └── culture/                # M4.4: Văn hóa (報連相, Nemawashi)
 │   └── vocabulary/                 # Từ vựng xuyên suốt
-│       ├── index.html              # Flashcard hub
-│       └── phrases.html            # Mẫu câu cố định
+│       ├── index.html              # ✅ Flashcard hub + word list + SRS rating
+│       └── phrases.html            # ✅ 37 mẫu câu / 6 nhóm + search realtime
 ├── assets/
 │   ├── css/
 │   │   ├── main.css                # Global styles, design tokens
 │   │   ├── lesson.css              # Layout bài học + video embed
 │   │   └── components.css          # Card, quiz, flashcard, badge
 │   ├── js/
-│   │   ├── progress.js             # LocalStorage: bài đã xem
+│   │   ├── progress.js             # ✅ LocalStorage + global API (xem bên dưới)
 │   │   ├── quiz.js                 # Quiz logic + score
-│   │   ├── flashcard.js            # Spaced repetition đơn giản
-│   │   └── theme.js                # Dark mode toggle
+│   │   ├── flashcard.js            # Spaced repetition + SenpaiFlashcard.getAll/save
+│   │   └── theme.js                # Dark mode toggle + scroll reveal tự động
 │   ├── audio/                      # File âm thanh phát âm (pre-recorded)
 │   └── screenshots/                # Chụp sau thay đổi lớn
 └── docs/
@@ -102,6 +108,30 @@ senpai/
 
 ---
 
+## JS API — progress.js (global functions)
+```js
+isLessonComplete(lessonId)        // → boolean
+markLessonComplete(lessonId)      // lưu vào LocalStorage
+calculateProgress(lessonIds[])    // → number (0–100)
+```
+**Lesson ID convention:** `s{stage}-{module}-{nn}` — ví dụ:
+- `s2-email-01`, `s2-email-02`, `s2-email-03`
+- `s2-meeting-01`, `s2-meeting-02`
+- `s2-reporting-01`
+
+> `theme.js` đã xử lý scroll reveal tự động cho `.reveal` — không cần thêm `IntersectionObserver` thủ công trong từng page.
+
+---
+
+## Dark Mode — Lưu ý CSS
+Nếu dùng **gradient màu cố định** (không dùng CSS variable), phải override trong dark mode:
+```css
+.my-element { background: linear-gradient(#FEF2F2, #EEF2FF); color: #1D1D1F; }
+[data-theme="dark"] .my-element { background: linear-gradient(rgba(...), rgba(...)); color: #F5F5F7; }
+```
+
+---
+
 ## Lesson Page Structure (mọi bài học PHẢI theo template này)
 ```
 1. [Hero]       Tình huống — bối cảnh dự án IT cụ thể, ngắn gọn
@@ -116,6 +146,26 @@ senpai/
 ```
 > Phần `[Video]` phải có **fallback placeholder** (ảnh thumbnail + text) khi chưa upload video.  
 > Khi có video thật: chỉ thay src embed, không cần đụng layout.
+
+## Lesson Content Depth — theo thứ tự bài trong module
+
+**Lesson 1 (khởi động)** — độ sâu vừa đủ, không overwhelm:
+- Notes: 5 điểm chính + giải thích ngắn tại sao
+- Vocab: 5–7 từ, có ngữ cảnh dùng
+- Pattern: 2–3 mẫu câu + bảng Keigo matrix (Thân mật / Formal / Keigo)
+- Example: so sánh sai vs đúng + 1 email/hội thoại hoàn chỉnh có annotation
+- Practice: 3 fill-in-blank + 1 bài spot-the-mistake
+- Quiz: 5 câu (mix MCQ + situation-based), feedback từng câu
+- Block "Senpai cảnh báo": 3 lỗi thường gặp, ví dụ sai/đúng song song
+
+**Lesson 2 trở đi** — tăng thêm 1 lớp nội dung:
+- Thêm 1–2 tình huống biến thể trong phần Pattern (edge case thực tế hơn)
+- Example dài hơn — thêm turn/đoạn, phức tạp hơn, nhiều nhánh hơn
+- Practice: thêm 1 bài viết ngắn (viết lại email/hội thoại theo gợi ý)
+- Quiz: 5–6 câu, tăng tỷ lệ situation-based lên ≥ 3/5
+- Có thể thêm "Nâng cao" block — giải thích sắc thái, lỗi tinh tế hơn
+
+> Tham khảo `japanese/stage2/email/lesson-01.html` làm chuẩn lesson mẫu (Lesson 1 level).
 
 ---
 

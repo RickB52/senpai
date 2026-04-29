@@ -955,9 +955,13 @@ section { padding: 96px 0; }
   margin: 0 0 28px;
   font-size: 1.0625rem;
   font-style: italic;
-  color: var(--color-text);
+  color: #1D1D1F;
   line-height: 1.7;
   text-align: left;
+}
+[data-theme="dark"] .intro__quote {
+  background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(79,70,229,0.12));
+  color: #F5F5F7;
 }
 
 .intro__cta-text {
