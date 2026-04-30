@@ -1,4 +1,4 @@
-# CLAUDE.md — Senpai | Tiếng Nhật Thực Chiến
+﻿# CLAUDE.md — Senpai | Tiếng Nhật Thực Chiến
 
 ## Project
 **Senpai** — "Học từ người đã trải qua"  
@@ -169,6 +169,26 @@ Nếu dùng **gradient màu cố định** (không dùng CSS variable), phải o
 
 ---
 
+## Characters — nhân vật xuyên suốt mọi bài học
+Mọi bài học PHẢI dùng các nhân vật này, nhất quán từ tình huống → dialog → quiz.
+
+| Nhân vật | Vai trò | Tính cách |
+|---|---|---|
+| **Dynh** | Nhân viên bên A (vendor) — BA / BRSe / Comtor / PM tùy bài | Nhiệt huyết, thành thật, hay lo lắng khi đứng trước Honda-san. Đôi khi mắc lỗi keigo nhưng học nhanh. Muốn làm tốt, không để Ông Chơn mất mặt trước client. |
+| **Ông Chơn** | Sếp của Dynh (bên A, người Việt) | Kinh nghiệm dày dặn nhiều năm dự án Nhật. Thực dụng, thẳng thắn kiểu Việt. Đôi khi dùng humor. Biết tiếng Nhật nhưng cố ý để Dynh tự handle. Xuất hiện khi briefing Dynh trước meeting, review email, hoặc nhận xét sau lỗi. |
+| **Honda Yuta** (本田雄太) | Trưởng phòng bên client (phía Nhật) | Nghiêm túc, đúng giờ tuyệt đối, không bỏ qua lỗi keigo. Nói chậm, rõ ràng, expect đối phương luôn dùng keigo chuẩn. Khi Dynh đúng: gật đầu nhẹ, "そうですね". Khi sai: im lặng awkward hoặc nhắc lại câu đúng. Nickname nội bộ bên Dynh: "Honda-san khó tính". |
+| **Yamaura Aya** (山浦彩) | Cấp dưới Honda, đối tác trực tiếp của Dynh | Thân thiện, kiên nhẫn, hay mỉm cười. Hiểu văn hóa hai bên, đóng vai cầu nối. Khi Dynh sai: nhẹ nhàng paraphrase lại giúp Dynh thoát khỏi tình huống awkward. "Mentor ngầm" — đôi khi nhắn tin/email riêng dặn Dynh trước meeting. |
+
+**Quy tắc dùng nhân vật:**
+- Email lesson: Dynh gửi → Honda Yuta hoặc Yamaura Aya nhận (tùy mức độ formal)
+- Meeting lesson: Honda Yuta giải thích/yêu cầu, Yamaura Aya hỗ trợ, Dynh xử lý
+- Reporting lesson: Dynh gửi báo cáo → Honda Yuta nhận
+- Ông Chơn xuất hiện trong situation context (brief trước meeting, review sau)
+- Email của Dynh ký: `Dynh / Vietnam IT Team` — email: `dynh@vietnam-it.com`
+- Email của Honda: `honda.yuta@abc-project.co.jp`
+
+---
+
 ## Learning Roadmap (4 giai đoạn)
 > Full detail: `@senpai-learning-roadmap.md` · Tổng thời gian ước tính: 24–32 tuần
 
@@ -262,9 +282,9 @@ N3 Nâng cao  →  N2 Business Foundation  →  N1 Business Advanced  →  Busin
 6. Mọi feature dùng LocalStorage — không gọi API ngoài ở MVP
 7. Code đơn giản — Vanilla JS, không framework, không build tool
 8. Animation scroll-in cho mọi section khi vào viewport
-9. Footer mọi trang: `Copyright © 2026 DynhNC5 | senpai.vn`
+9. Footer mọi trang: `Copyright © 2026 DynhNC | senpai.vn`
 10. Screenshot sau thay đổi lớn → `assets/screenshots/`
-11. Chữ ký **"Senpai DynhNC5"** phải xuất hiện ở **header** (navbar brand) và **footer** (footer__bottom) của mọi trang trong dự án — không được bỏ hoặc thay đổi tên này
+11. Chữ ký **"Senpai DynhNC"** phải xuất hiện ở **header** (navbar brand) và **footer** (footer__bottom) của mọi trang trong dự án — không được bỏ hoặc thay đổi tên này
 12. **Link path phải khớp file thực tế** — trước khi viết bất kỳ `href` nào, xác nhận file đích tồn tại đúng vị trí. Cấu trúc chuẩn: `japanese/stage{N}/{module}/lesson-{NN}.html`. Không dùng alias cũ (`business/`, `modules/`, v.v.). Sau khi thêm link mới, chạy kiểm tra: `grep -r "href=" --include="*.html" | grep -v "http" | grep -v "#"` rồi verify từng path.
 
 ## Commit Convention

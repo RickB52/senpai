@@ -295,24 +295,66 @@
 }
 
 /* ===========================================
-   THEME TOGGLE
+   THEME TOGGLE — slide
    =========================================== */
 .theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-md);
-  background: transparent;
-  font-size: 0.9375rem;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: color var(--transition);
   flex-shrink: 0;
 }
 
-.theme-toggle:hover { color: var(--color-text); }
+.toggle-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 56px;
+  height: 28px;
+  border-radius: 999px;
+  background: #CBD5E1;
+  padding: 0 5px;
+  transition: background 0.3s;
+  box-sizing: border-box;
+}
+
+[data-theme="dark"] .toggle-track { background: #374151; }
+
+.toggle-sun,
+.toggle-moon {
+  font-size: 13px;
+  line-height: 1;
+  z-index: 2;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* light mode: sun active */
+.toggle-sun  { opacity: 1;   transform: scale(1.1); }
+.toggle-moon { opacity: 0.4; transform: scale(0.9); }
+
+/* dark mode: moon active */
+[data-theme="dark"] .toggle-sun  { opacity: 0.4; transform: scale(0.9); }
+[data-theme="dark"] .toggle-moon { opacity: 1;   transform: scale(1.1); }
+
+.toggle-thumb {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  top: 3px;
+  left: 3px;
+  z-index: 1;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] .toggle-thumb { transform: translateX(28px); }
 
 /* ===========================================
    FEATURES STRIP

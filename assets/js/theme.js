@@ -10,13 +10,11 @@
   document.addEventListener('DOMContentLoaded', function () {
     const toggles = document.querySelectorAll('.theme-toggle');
     toggles.forEach(function (btn) {
-      btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
       btn.addEventListener('click', function () {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('senpai_theme', next);
-        toggles.forEach(function (b) { b.textContent = next === 'dark' ? '☀️' : '🌙'; });
       });
     });
 
